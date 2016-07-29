@@ -25,7 +25,7 @@ request.get_inventory()
 response = request.call()
 items = response['responses']['GET_INVENTORY']['inventory_delta']['inventory_items']
 
-print "nickname;species;attack_IV;defense_IV;stamina_IV;percent;cp"
+print("nickname;species;attack_IV;defense_IV;stamina_IV;percent;cp")
 for item in items:
     if 'pokemon_data' in item['inventory_item_data']:
         # Eggs are treated as pokemon by Niantic.
@@ -39,6 +39,6 @@ for item in items:
             cp = str(pokedata.get('cp', 0))
             species = pokemon_list[int(pokedata.get('pokemon_id', 0))-1]
             nickname = pokedata.get('nickname', 'no_nickname')
-            print "%s;%s;%s;%s;%s;%s;%s" %(nickname, species, str(attack_IV), str(defense_IV), str(stamina_IV), percent, cp)
+            print("%s;%s;%s;%s;%s;%s;%s" %(nickname, species, str(attack_IV), str(defense_IV), str(stamina_IV), percent, cp))
             
             
