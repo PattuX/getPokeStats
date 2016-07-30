@@ -8,7 +8,7 @@ What are IVs? [Reference](http://gaming.stackexchange.com/questions/276692/in-po
 * Install python
 * `pip install git+https://github.com/tejado/pgoapi.git`
 * `pip install xlwt`
-* 
-* # Usage
+
+# Usage
 * `python getPokeStats.py login_name password service{ptc or google} latitude longitude`
 * Open results in Excel
