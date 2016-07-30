@@ -9,5 +9,5 @@ What are IVs? [Reference](http://gaming.stackexchange.com/questions/276692/in-po
 * pip install git+https://github.com/tejado/pgoapi.git
 
 #Usage
-* `python getPokeStats.py login_name password service{ptc or google} > pokestats.csv`
+* pip install xlwt* `python getPokeStats.py login_name password service{ptc or google} latitude longitude`
 * Open results in Excel
