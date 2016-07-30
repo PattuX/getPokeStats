@@ -1,5 +1,6 @@
 import argparse
 from pgoapi import pgoapi
+import xlwt
 
 parser = argparse.ArgumentParser()
 parser.add_argument("login_name")
@@ -26,11 +27,24 @@ request.get_inventory()
 response = request.call()
 items = response['responses']['GET_INVENTORY']['inventory_delta']['inventory_items']
 
-print("Nickname;Species;Attack IV;Defense IV;Stamina IV;Percent;CP;Move 1;Move 2")
+book = xlwt.Workbook()
+sheet = book.add_sheet("IVs")
+
+sheet.write(0, 0, "Nickname")
+sheet.write(0, 1, "Species")
+sheet.write(0, 2, "Attack IV")
+sheet.write(0, 3, "Defense IV")
+sheet.write(0, 4, "Stamina IV")
+sheet.write(0, 5, "Percent")
+sheet.write(0, 6, "CP")
+sheet.write(0, 7, "Move 1")
+sheet.write(0, 8, "Move 2")
+
+line = 1
 for item in items:
     if 'pokemon_data' in item['inventory_item_data']:
         # Eggs are treated as pokemon by Niantic.
-         if 'is_egg' not in item['inventory_item_data']['pokemon_data']:
+        if 'is_egg' not in item['inventory_item_data']['pokemon_data']:
             pokedata = item['inventory_item_data']['pokemon_data']
             attack_IV = pokedata.get('individual_attack', 0)
             defense_IV = pokedata.get('individual_defense', 0)
@@ -39,9 +53,20 @@ for item in items:
             percent = "%.2f" % percent
             cp = str(pokedata.get('cp', 0))
             species = pokemon_list[int(pokedata.get('pokemon_id', 0))-1]
-            nickname = pokedata.get('nickname', 'no_nickname')
+            nickname = pokedata.get('nickname', 'No Nickname')
             move1 = pokedata.get('move_1', 0)
             move2 = pokedata.get('move_2', 0)
-            move1 = move_list[str(move1)].replace("_FAST","")
+            move1 = move_list[str(move1)].replace("_FAST", "")
             move2 = move_list[str(move2)]
-            print("%s;%s;%s;%s;%s;%s;%s;%s;%s" %(nickname, species, str(attack_IV), str(defense_IV), str(stamina_IV), str(percent), cp, move1, move2))         
+            sheet.write(line, 0, nickname)
+            sheet.write(line, 1, species)
+            sheet.write(line, 2, attack_IV)
+            sheet.write(line, 3, defense_IV)
+            sheet.write(line, 4, stamina_IV)
+            sheet.write(line, 5, percent)
+            sheet.write(line, 6, cp)
+            sheet.write(line, 7, move1)
+            sheet.write(line, 8, move2)
+            line += 1
+
+book.save("pokestats.xls")
